@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Destroy : MonoBehaviour
 {
-    public void DestroyAtAnimEnd()
+    //used in animation event
+    void DestroyAtAnimEnd()
     {
         Destroy(this.gameObject);
     }

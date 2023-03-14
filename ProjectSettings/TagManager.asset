@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Crosshair
+  - Tower
+  - Enemy
   layers:
   - Default
   - TransparentFX
