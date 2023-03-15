@@ -6,6 +6,7 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] private Transform _towerPos;
     [SerializeField] private float _speed;
+    [SerializeField] private float _damage;
     [SerializeField] private int _health;
     [SerializeField] private int _bountyValue;
     public int BountyValue { get { return _bountyValue; } }
@@ -71,6 +72,14 @@ public class Enemy : MonoBehaviour
             _isMoving = false;
             _isAttacking = false;
             _isDead = true;
+            Points.Instance.points += _bountyValue;
+            UIManager.Instance.UpdateGoldValue();
         }     
+    }
+
+    void DealDamage()
+    {
+        GameManager.Instance.towerHealth -= _damage;
+        UIManager.Instance.UpdateTowerHealthSlider();
     }
 }

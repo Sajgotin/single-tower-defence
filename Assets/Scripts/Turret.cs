@@ -20,8 +20,11 @@ public class Turret : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        AimCannon();
-        RotateTurret();
+        if(Time.timeScale > 0)
+        {
+            AimCannon();
+            RotateTurret();
+        }   
     }
 
     void AimCannon()

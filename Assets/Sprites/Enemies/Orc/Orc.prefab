@@ -656,7 +656,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _towerPos: {fileID: 0}
   _speed: 1
+  _damage: 1
   _health: 1
+  _bountyValue: 10
 --- !u!61 &251519333
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -26658,7 +26660,14 @@ AnimationClip:
     script: {fileID: 0}
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 0.15
+    functionName: DealDamage
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
 --- !u!74 &74715881418247034
 AnimationClip:
   m_ObjectHideFlags: 0
