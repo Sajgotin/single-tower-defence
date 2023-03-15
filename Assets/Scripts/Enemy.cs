@@ -7,6 +7,8 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Transform _towerPos;
     [SerializeField] private float _speed;
     [SerializeField] private int _health;
+    [SerializeField] private int _bountyValue;
+    public int BountyValue { get { return _bountyValue; } }
     private Vector2 _targetPos;
 
     private bool _isAttacking;

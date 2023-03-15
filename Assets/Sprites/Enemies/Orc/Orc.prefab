@@ -655,7 +655,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _towerPos: {fileID: 0}
-  _speed: 0.5
+  _speed: 1
   _health: 1
 --- !u!61 &251519333
 BoxCollider2D:
