@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
     [SerializeField] private TextMeshProUGUI _goldText;
+    [SerializeField] private TextMeshProUGUI _currentWaveText;
     [SerializeField] private Slider _towerHealthSlider;
 
     private void Awake()
@@ -38,5 +39,10 @@ public class UIManager : MonoBehaviour
     {
         _towerHealthSlider.maxValue = GameManager.Instance.maxTowerHealth;
         _towerHealthSlider.value = GameManager.Instance.towerHealth;
+    }
+
+    public void UpdateWaveText()
+    {
+        _currentWaveText.text = "Wave: " + EnemySpawner.Instance.WaveCount;
     }
 }

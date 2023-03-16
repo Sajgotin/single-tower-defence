@@ -33,19 +33,39 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.P))
         {
-            _upgradeMenu.SetActive(!_upgradeMenu.activeSelf);
-            if (_upgradeMenu.activeSelf) 
-            {
-                Time.timeScale = 0;
-                _crosshair.SetActive(false);
-            }
-            else
-            { 
-                Time.timeScale = 1; 
-                _crosshair.SetActive(true);
-            }
+            ToggleUpgradeMenu();
         }
 
-        if (towerHealth <= 0) Debug.Log("Tower destroyed!");
+        if (towerHealth <= 0) 
+        {
+            ToggleUpgradeMenu();
+            towerHealth = maxTowerHealth;
+            UIManager.Instance.UpdateTowerHealthSlider();        
+            ResetWave();
+        }
+    }
+
+    void ToggleUpgradeMenu()
+    {
+        _upgradeMenu.SetActive(!_upgradeMenu.activeSelf);
+        if (_upgradeMenu.activeSelf)
+        {
+            Time.timeScale = 0;
+            _crosshair.SetActive(false);
+        }
+        else
+        {
+            Time.timeScale = 1;
+            _crosshair.SetActive(true);
+        }
+    }
+
+    void ResetWave()
+    {
+        GameObject[] activeEnemies = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (GameObject enemy in activeEnemies)
+        {
+            Destroy(enemy);
+        }
     }
 }

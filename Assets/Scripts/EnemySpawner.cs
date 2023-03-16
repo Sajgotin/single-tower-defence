@@ -4,11 +4,25 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
+    public static EnemySpawner Instance { get; private set; }
     [SerializeField] private float _nextWaveTime;
     [SerializeField] private float _timer;
     [SerializeField] private int _enemyNextWave;
     [SerializeField] private int _waveCount;
+    public int WaveCount { get { return _waveCount; } }
     [SerializeField] private GameObject[] _enemyArray;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +44,7 @@ public class EnemySpawner : MonoBehaviour
         {
             _waveCount++;
             _timer = 0;
+            UIManager.Instance.UpdateWaveText();
 
             StartCoroutine(SpawnEnemy());
         }
