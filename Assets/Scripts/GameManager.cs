@@ -25,7 +25,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = false;
     }
 
     // Update is called once per frame
@@ -52,11 +53,13 @@ public class GameManager : MonoBehaviour
         {
             Time.timeScale = 0;
             _crosshair.SetActive(false);
+            Cursor.visible = true;
         }
         else
         {
             Time.timeScale = 1;
             _crosshair.SetActive(true);
+            Cursor.visible = false;
         }
     }
 
@@ -67,5 +70,10 @@ public class GameManager : MonoBehaviour
         {
             Destroy(enemy);
         }
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }

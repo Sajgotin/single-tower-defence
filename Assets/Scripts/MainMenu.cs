@@ -18,8 +18,8 @@ public class MainMenu : MonoBehaviour
 
     public void SettingsButton()
     {
-        settingsPanel.SetActive(true);
-        buttonsCointainer.SetActive(false);
+       // settingsPanel.SetActive(true);
+       // buttonsCointainer.SetActive(false);
     }
 
     public void QuitButton()
