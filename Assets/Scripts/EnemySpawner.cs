@@ -7,6 +7,7 @@ public class EnemySpawner : MonoBehaviour
     public static EnemySpawner Instance { get; private set; }
     [SerializeField] private float _nextWaveTime;
     [SerializeField] private float _timer;
+    [SerializeField] private int _enemyUnlock;
     [SerializeField] private int _enemyNextWave;
     [SerializeField] private int _waveCount;
     public int WaveCount { get { return _waveCount; } }
@@ -27,6 +28,7 @@ public class EnemySpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _enemyUnlock = 3;
         _timer = _nextWaveTime;
     }
 
@@ -45,6 +47,7 @@ public class EnemySpawner : MonoBehaviour
             _waveCount++;
             _timer = 0;
             UIManager.Instance.UpdateWaveText();
+            AddNewEnemyToSpawn();
 
             StartCoroutine(SpawnEnemy());
         }
@@ -54,7 +57,7 @@ public class EnemySpawner : MonoBehaviour
     {    
         for (int i = 0; i < _enemyNextWave * _waveCount;)
         {
-            Instantiate(_enemyArray[0], RandomSpawnPos(), Quaternion.identity, this.gameObject.transform);
+            Instantiate(_enemyArray[Random.Range(0,_enemyArray.Length - _enemyUnlock)], RandomSpawnPos(), Quaternion.identity, this.gameObject.transform);
             yield return new WaitForSeconds(.2f);
             i++;
         }
@@ -75,5 +78,23 @@ public class EnemySpawner : MonoBehaviour
             return spawnPos;
         }
 
+    }
+
+    void AddNewEnemyToSpawn()
+    {
+        switch (_waveCount)
+        {
+            case 6:
+                _enemyUnlock--;
+                break;
+            case 11:
+                _enemyUnlock--;
+                break;
+            case 16:
+                _enemyUnlock--;
+                break;
+            default:
+                break;
+        }
     }
 }

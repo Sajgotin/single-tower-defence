@@ -4955,10 +4955,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _nextWaveTime: 15
   _timer: 0
+  _enemyUnlock: 0
   _enemyNextWave: 10
   _waveCount: 0
   _enemyArray:
   - {fileID: 1536174974547902, guid: 09586fe188718df4f94dd29a764fab9b, type: 3}
+  - {fileID: 5539103568891418368, guid: 3d305abf938dfc84d8bf1b91d8a11a3a, type: 3}
+  - {fileID: 1714274998676182, guid: 6d0265f627f732c4e8c257e2f4bd0ca0, type: 3}
+  - {fileID: 2946989359822449562, guid: f599d76226aa16e4b87e507fa32dd4b8, type: 3}
 --- !u!1 &1756000662
 GameObject:
   m_ObjectHideFlags: 0
