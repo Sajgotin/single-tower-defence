@@ -513,6 +513,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5e7b0bcfaba79741a6a80fdecc80a41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _healthBarCanvas: {fileID: 0}
   _healthBar: {fileID: 1629291566888385944}
   _towerPos: {fileID: 0}
   _speed: 0.4
@@ -15371,6 +15372,13 @@ AnimationClip:
   m_Events:
   - time: 0.5
     functionName: DestroyAtAnimEnd
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.5
+    functionName: DestroyHealthBar
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

@@ -5,7 +5,6 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-    [SerializeField] private GameObject _upgradeMenu;
     [SerializeField] private GameObject _crosshair;
     public float maxTowerHealth = 100f;
     public float towerHealth = 100f;
@@ -34,32 +33,15 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.P))
         {
-            ToggleUpgradeMenu();
+            UIManager.Instance.ToggleUpgradeMenu();
         }
 
         if (towerHealth <= 0) 
         {
-            ToggleUpgradeMenu();
+            UIManager.Instance.ToggleUpgradeMenu();
             towerHealth = maxTowerHealth;
             UIManager.Instance.UpdateTowerHealthSlider();        
             ResetWave();
-        }
-    }
-
-    void ToggleUpgradeMenu()
-    {
-        _upgradeMenu.SetActive(!_upgradeMenu.activeSelf);
-        if (_upgradeMenu.activeSelf)
-        {
-            Time.timeScale = 0;
-            _crosshair.SetActive(false);
-            Cursor.visible = true;
-        }
-        else
-        {
-            Time.timeScale = 1;
-            _crosshair.SetActive(true);
-            Cursor.visible = false;
         }
     }
 
@@ -68,6 +50,7 @@ public class GameManager : MonoBehaviour
         GameObject[] activeEnemies = GameObject.FindGameObjectsWithTag("Enemy");
         foreach (GameObject enemy in activeEnemies)
         {
+            enemy.GetComponent<HealthBar>().DestroyHealthBar();
             Destroy(enemy);
         }
     }

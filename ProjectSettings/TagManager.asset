@@ -8,6 +8,7 @@ TagManager:
   - Tower
   - Enemy
   - Spawner
+  - Health Canvas
   layers:
   - Default
   - TransparentFX

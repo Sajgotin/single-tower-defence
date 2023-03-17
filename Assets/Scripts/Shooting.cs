@@ -12,6 +12,8 @@ public class Shooting : MonoBehaviour
     [SerializeField] private float _timer;
     [SerializeField] private int _maxAmmoCapacity;
     [SerializeField] private int _ammoCapacity;
+    [SerializeField] private int _damage;
+    public int Damage { get { return _damage; } }
     [SerializeField] private bool _isReloading;
 
     private void Start()

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    [SerializeField] private Canvas _healthBarCanvas;
     [SerializeField] private HealthBar _healthBar;
     [SerializeField] private Transform _towerPos;
     [SerializeField] private float _speed;
@@ -30,6 +31,8 @@ public class Enemy : MonoBehaviour
         _isAttacking = false;
         _isDead = false;
 
+        _healthBarCanvas = GameObject.FindGameObjectWithTag("Health Canvas").GetComponent<Canvas>();
+        _healthBar.SetupHealthBar(_healthBarCanvas);
         GetTargetPosition();
         RotateTowardsTarget();
     }
@@ -68,9 +71,9 @@ public class Enemy : MonoBehaviour
         transform.eulerAngles = new Vector3(0, rotation, 0);
     }
 
-    public void HurtEnemy()
+    public void HurtEnemy(int damage)
     {
-        _health -= 1;
+        _health -= damage;
         _healthBar.UpdateHealthBar();
         if (_health <= 0)
         {

@@ -6,7 +6,7 @@ public class ExplosionDamage : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == "Enemy") collision.GetComponent<Enemy>().HurtEnemy();
+        if(collision.tag == "Enemy") collision.GetComponent<Enemy>().HurtEnemy(GameObject.FindGameObjectWithTag("Player").GetComponent<Shooting>().Damage);
     }
 
     //used in animation event

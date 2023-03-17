@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _currentWaveText;
     [SerializeField] private Slider _towerHealthSlider;
     [SerializeField] private GameObject _pauseMenu;
+    [SerializeField] private GameObject _upgradeMenu;
     [SerializeField] private GameObject _crosshair;
 
     private void Awake()
@@ -66,9 +67,32 @@ public class UIManager : MonoBehaviour
         }
         else
         {
-            Time.timeScale = 1;
-            _crosshair.SetActive(true);
-            Cursor.visible = false;
+            if (!_upgradeMenu.activeSelf)
+            {
+                Time.timeScale = 1;
+                _crosshair.SetActive(true);
+                Cursor.visible = false;
+            }
+        }
+    }
+
+    public void ToggleUpgradeMenu()
+    {
+        _upgradeMenu.SetActive(!_upgradeMenu.activeSelf);
+        if (_upgradeMenu.activeSelf)
+        {
+            Time.timeScale = 0;
+            _crosshair.SetActive(false);
+            Cursor.visible = true;
+        }
+        else
+        {
+            if (!_pauseMenu.activeSelf)
+            {
+                Time.timeScale = 1;
+                _crosshair.SetActive(true);
+                Cursor.visible = false;
+            }
         }
     }
 }
