@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    [SerializeField] private HealthBar _healthBar;
     [SerializeField] private Transform _towerPos;
     [SerializeField] private float _speed;
     [SerializeField] private float _damage;
+    [SerializeField] private int _maxHealth;
+    public int MaxHealth { get { return _maxHealth; } }
     [SerializeField] private int _health;
+    public int Health { get { return _health; } }
     [SerializeField] private int _bountyValue;
     public int BountyValue { get { return _bountyValue; } }
     private Vector2 _targetPos;
@@ -67,6 +71,7 @@ public class Enemy : MonoBehaviour
     public void HurtEnemy()
     {
         _health -= 1;
+        _healthBar.UpdateHealthBar();
         if (_health <= 0)
         {
             _isMoving = false;
