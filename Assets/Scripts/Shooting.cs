@@ -12,6 +12,7 @@ public class Shooting : MonoBehaviour
     [SerializeField] private float _timer;
     [SerializeField] private int _maxAmmoCapacity;
     [SerializeField] private int _ammoCapacity;
+    public int AmmoCapacity { get { return _ammoCapacity; } }
     [SerializeField] private int _damage;
     public int Damage { get { return _damage; } }
     [SerializeField] private bool _isReloading;
@@ -35,6 +36,7 @@ public class Shooting : MonoBehaviour
         {
             _timer = 0;
             _ammoCapacity--;
+            UIManager.Instance.UpdateAmmoText();
 
             Instantiate(_explosion, CalculateMouseToWorldPosition(), Quaternion.identity);
             Instantiate(_muzzleFlash, _muzzleFlashPos.position, _muzzleFlashPos.rotation);
@@ -51,7 +53,11 @@ public class Shooting : MonoBehaviour
 
     void ReloadWeapon()
     {
-        if (_timer >= _reloadTime) _ammoCapacity = _maxAmmoCapacity;
+        if (_timer >= _reloadTime)
+        {
+            _ammoCapacity = _maxAmmoCapacity;
+            UIManager.Instance.UpdateAmmoText();
+        }  
     }
 
     Vector3 CalculateMouseToWorldPosition()

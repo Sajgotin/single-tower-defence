@@ -53,7 +53,7 @@ public class Upgrades : MonoBehaviour
 
     public void UpgradeFireRate()
     {
-        if (_fireRateLevel < 20 && Points.Instance.points > _fireRateCost)
+        if (_fireRateLevel < 20 && Points.Instance.points >= _fireRateCost)
         {
             _shootingScript.UpgradeFireRate();
             Points.Instance.points -= (int)_fireRateCost;
@@ -73,7 +73,7 @@ public class Upgrades : MonoBehaviour
 
     public void UpgradeReloadTime()
     {
-        if (_reloadTimeLevel < 20 && Points.Instance.points > _reloadTimeCost)
+        if (_reloadTimeLevel < 20 && Points.Instance.points >= _reloadTimeCost)
         {
             _shootingScript.UpgradeReloadTime();
             Points.Instance.points -= (int)_reloadTimeCost;
@@ -93,7 +93,7 @@ public class Upgrades : MonoBehaviour
 
     public void UpgradeAmmoCapacity()
     {
-        if(Points.Instance.points > _ammoCapacityCost)
+        if(Points.Instance.points >= _ammoCapacityCost)
         {
             _shootingScript.UpgradeAmmoCapacity();
             Points.Instance.points -= (int)_ammoCapacityCost;

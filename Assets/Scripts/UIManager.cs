@@ -9,10 +9,12 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance { get; private set; }
     [SerializeField] private TextMeshProUGUI _goldText;
     [SerializeField] private TextMeshProUGUI _currentWaveText;
+    [SerializeField] private TextMeshProUGUI _ammoText;
     [SerializeField] private Slider _towerHealthSlider;
     [SerializeField] private GameObject _pauseMenu;
     [SerializeField] private GameObject _upgradeMenu;
     [SerializeField] private GameObject _crosshair;
+    [SerializeField] private Shooting _shootingScript;
 
     private void Awake()
     {
@@ -23,11 +25,13 @@ public class UIManager : MonoBehaviour
         else
         {
             Instance = this;
-        }
+        } 
     }
 
     private void Start()
     {
+        _shootingScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Shooting>();
+        UpdateAmmoText();
         _towerHealthSlider.maxValue = GameManager.Instance.maxTowerHealth;
         _towerHealthSlider.value = GameManager.Instance.towerHealth;
     }
@@ -54,6 +58,11 @@ public class UIManager : MonoBehaviour
     public void UpdateWaveText()
     {
         _currentWaveText.text = "Wave: " + EnemySpawner.Instance.WaveCount;
+    }
+
+    public void UpdateAmmoText()
+    {
+        _ammoText.text = "Ammo: " + _shootingScript.AmmoCapacity;
     }
 
     void TogglePauseMenu()

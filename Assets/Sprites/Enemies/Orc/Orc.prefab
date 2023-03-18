@@ -1080,7 +1080,7 @@ MonoBehaviour:
   _damage: 1
   _maxHealth: 1
   _health: 1
-  _bountyValue: 10
+  _bountyValue: 100
 --- !u!61 &251519333
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1143,7 +1143,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0072e2e7e8a9d2458105cde249fef35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _healthBar: {fileID: 1834105955}
   _healthBarSlider: {fileID: 1272398337}
 --- !u!1 &1610154670581132
 GameObject:

@@ -883,7 +883,7 @@ MonoBehaviour:
   _damage: 2
   _maxHealth: 3
   _health: 3
-  _bountyValue: 50
+  _bountyValue: 500
 --- !u!114 &4243274151592315605
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -946,7 +946,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0072e2e7e8a9d2458105cde249fef35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _healthBar: {fileID: 8395210820338937600}
   _healthBarSlider: {fileID: 7859002344311623094}
 --- !u!1 &5829725157464698210
 GameObject:
