@@ -84,7 +84,7 @@ public class Enemy : MonoBehaviour
             _isDead = true;
             Points.Instance.points += _bountyValue;
             UIManager.Instance.UpdateGoldValue();
-            if(!_deathSound) SoundController.Instance.PlayEnemyDeath();
+            if(!_deathSound) SoundController.Instance.ActivateDeathSound();
             _deathSound = true;
         }     
     }
@@ -97,6 +97,6 @@ public class Enemy : MonoBehaviour
 
     void PlayAttackSound()
     {
-        SoundController.Instance.PlayHitCastle();
+        SoundController.Instance.ActivateHitSound();
     }
 }

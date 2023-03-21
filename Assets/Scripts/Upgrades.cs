@@ -117,6 +117,7 @@ public class Upgrades : MonoBehaviour
             _ammoCapacityCost += 100;
             _ammoCapacityCostText.text = ((int)_ammoCapacityCost).ToString();     
             UIManager.Instance.UpdateGoldValue();
+            UIManager.Instance.UpdateAmmoText();
             _ammoCapacityButtonText.text = _ammoCapacityLevel.ToString();
         }  
     }
