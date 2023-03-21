@@ -17,7 +17,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] int _bountyValue;
     public int BountyValue { get { return _bountyValue; } }
     private Vector2 _targetPos;
-
+    private bool _deathSound;
     private bool _isAttacking;
     public bool IsAttacking { get { return _isAttacking; } }
     private bool _isMoving;
@@ -84,6 +84,8 @@ public class Enemy : MonoBehaviour
             _isDead = true;
             Points.Instance.points += _bountyValue;
             UIManager.Instance.UpdateGoldValue();
+            if(!_deathSound) SoundController.Instance.PlayEnemyDeath();
+            _deathSound = true;
         }     
     }
 
@@ -91,5 +93,10 @@ public class Enemy : MonoBehaviour
     {
         GameManager.Instance.towerHealth -= (_damage * _turretScript.Armor);
         UIManager.Instance.UpdateTowerHealthSlider();
+    }
+
+    void PlayAttackSound()
+    {
+        SoundController.Instance.PlayHitCastle();
     }
 }

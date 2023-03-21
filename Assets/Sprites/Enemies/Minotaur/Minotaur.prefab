@@ -516,6 +516,7 @@ MonoBehaviour:
   _healthBarCanvas: {fileID: 0}
   _healthBar: {fileID: 1629291566888385944}
   _towerPos: {fileID: 0}
+  _turretScript: {fileID: 0}
   _speed: 0.4
   _damage: 4
   _maxHealth: 10
@@ -9811,6 +9812,13 @@ AnimationClip:
   m_Events:
   - time: 0.3
     functionName: DealDamage
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.3
+    functionName: PlayAttackSound
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

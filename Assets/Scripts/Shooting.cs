@@ -40,6 +40,7 @@ public class Shooting : MonoBehaviour
 
             Instantiate(_explosion, CalculateMouseToWorldPosition(), Quaternion.identity);
             Instantiate(_muzzleFlash, _muzzleFlashPos.position, _muzzleFlashPos.rotation);
+            SoundController.Instance.PlayExplosion();
         }
         
     }
