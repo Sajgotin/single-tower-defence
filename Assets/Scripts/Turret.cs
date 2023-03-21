@@ -9,6 +9,11 @@ public class Turret : MonoBehaviour
     private GameObject _turret;
     private GameObject _cannon;
     private GameObject _crosshair;
+    [SerializeField] float _armor;
+    [SerializeField] int _autorepairValue;
+    public int AutorepairValue { get { return _autorepairValue; } }
+    public float Armor { get { return _armor; } }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -39,5 +44,15 @@ public class Turret : MonoBehaviour
     {
         if (Input.mousePosition.x < Screen.width / 2) _turret.transform.rotation = Quaternion.Euler(0, 0, 0);
         else _turret.transform.rotation = Quaternion.Euler(0, 180, 0);
+    }
+
+    public void UpgradeTurretArmor()
+    {
+        _armor *= .9f;
+    }
+
+    public void UpgradeAutorepair()
+    {
+        _autorepairValue++;
     }
 }

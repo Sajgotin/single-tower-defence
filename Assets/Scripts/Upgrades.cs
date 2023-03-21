@@ -9,6 +9,7 @@ public class Upgrades : MonoBehaviour
 {
     [SerializeField] GameObject[] _towerObjects;
     [SerializeField] Shooting _shootingScript;
+    [SerializeField] Turret _turretScript;
 
     [Header("Firerate Upgrade")]
     [SerializeField] Button _fireRateButton;
@@ -31,9 +32,24 @@ public class Upgrades : MonoBehaviour
     [SerializeField] int _ammoCapacityLevel = 0;
     [SerializeField] float _ammoCapacityCost;
 
+    [Header("Armor Upgrade")]
+    [SerializeField] Button _armorButton;
+    [SerializeField] TextMeshProUGUI _armorButtonText;
+    [SerializeField] TextMeshProUGUI _armorCostText;
+    [SerializeField] int _armorLevel = 0;
+    [SerializeField] float _armorCost;
+
+    [Header("Autorepair Upgrade")]
+    [SerializeField] Button _autorepairButton;
+    [SerializeField] TextMeshProUGUI _autorepairButtonText;
+    [SerializeField] TextMeshProUGUI _autorepairCostText;
+    [SerializeField] int _autorepairLevel = 0;
+    [SerializeField] float _autorepairCost;
+
     private void Start()
     {
         _shootingScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Shooting>();
+        _turretScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Turret>();
     }
 
     public void UpgradeTower()
@@ -103,5 +119,45 @@ public class Upgrades : MonoBehaviour
             UIManager.Instance.UpdateGoldValue();
             _ammoCapacityButtonText.text = _ammoCapacityLevel.ToString();
         }  
+    }
+
+    public void UpgradeArmor()
+    {
+        if(Points.Instance.points >= _armorCost)
+        {
+            _turretScript.UpgradeTurretArmor();
+            Points.Instance.points -= (int)_armorCost;
+            _armorLevel++;
+            _armorCost *= 1.4f;
+            _armorCostText.text = ((int)_armorCost).ToString();
+            UIManager.Instance.UpdateGoldValue();
+            _armorButtonText.text = _armorLevel.ToString();
+            if (_armorLevel >= 10)
+            {
+                _armorButton.interactable = false;
+                _armorButtonText.text = "MAX";
+                _armorCostText.gameObject.SetActive(false);
+            }
+        }
+    }
+
+    public void UpgradeAutorepair()
+    {
+        if (Points.Instance.points >= _autorepairCost)
+        {
+            _turretScript.UpgradeAutorepair();
+            Points.Instance.points -= (int)_autorepairCost;
+            _autorepairLevel++;
+            _autorepairCost *= 1.4f;
+            _autorepairCostText.text = ((int)_autorepairCost).ToString();
+            UIManager.Instance.UpdateGoldValue();
+            _autorepairButtonText.text = _autorepairLevel.ToString();
+            if (_autorepairLevel >= 10)
+            {
+                _autorepairButton.interactable = false;
+                _autorepairButtonText.text = "MAX";
+                _autorepairCostText.gameObject.SetActive(false);
+            }
+        }
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
-    [SerializeField] private Slider _healthBarSlider;
+    [SerializeField] Slider _healthBarSlider;
     private Enemy _enemyScript;
 
     // Start is called before the first frame update

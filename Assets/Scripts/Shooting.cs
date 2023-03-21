@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class Shooting : MonoBehaviour
 {
-    [SerializeField] private GameObject _explosion;
-    [SerializeField] private GameObject _muzzleFlash;
-    [SerializeField] private Transform _muzzleFlashPos;
-    [SerializeField] private float _fireRate;
-    [SerializeField] private float _reloadTime;
-    [SerializeField] private float _timer;
-    [SerializeField] private int _maxAmmoCapacity;
-    [SerializeField] private int _ammoCapacity;
+    [SerializeField] GameObject _explosion;
+    [SerializeField] GameObject _muzzleFlash;
+    [SerializeField] Transform _muzzleFlashPos;
+    [SerializeField] float _fireRate;
+    [SerializeField] float _reloadTime;
+    [SerializeField] float _timer;
+    [SerializeField] int _maxAmmoCapacity;
+    [SerializeField] int _ammoCapacity;
     public int AmmoCapacity { get { return _ammoCapacity; } }
-    [SerializeField] private int _damage;
+    [SerializeField] int _damage;
     public int Damage { get { return _damage; } }
-    [SerializeField] private bool _isReloading;
+    [SerializeField] bool _isReloading;
 
     private void Start()
     {

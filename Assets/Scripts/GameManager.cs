@@ -5,7 +5,8 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-    [SerializeField] private GameObject _crosshair;
+    [SerializeField] GameObject _crosshair;
+    [SerializeField] Turret _turretScript;
     public float maxTowerHealth = 100f;
     public float towerHealth = 100f;
 
@@ -26,6 +27,7 @@ public class GameManager : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = false;
+        _turretScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Turret>();
     }
 
     // Update is called once per frame
@@ -43,6 +45,13 @@ public class GameManager : MonoBehaviour
             UIManager.Instance.UpdateTowerHealthSlider();        
             ResetWave();
         }
+
+        if (towerHealth > 0 && towerHealth < maxTowerHealth && Time.timeScale > 0) 
+        { 
+            AutorepairTurret();
+            UIManager.Instance.UpdateTowerHealthSlider();
+        }
+        if (towerHealth > maxTowerHealth) towerHealth = maxTowerHealth;
     }
 
     void ResetWave()
@@ -53,6 +62,11 @@ public class GameManager : MonoBehaviour
             enemy.GetComponent<HealthBar>().DestroyHealthBar();
             Destroy(enemy);
         }
+    }
+
+    void AutorepairTurret()
+    {
+        towerHealth += _turretScript.AutorepairValue * Time.deltaTime;
     }
 
     public void QuitGame()

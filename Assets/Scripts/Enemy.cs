@@ -4,16 +4,17 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private Canvas _healthBarCanvas;
-    [SerializeField] private HealthBar _healthBar;
-    [SerializeField] private Transform _towerPos;
-    [SerializeField] private float _speed;
-    [SerializeField] private float _damage;
-    [SerializeField] private int _maxHealth;
+    [SerializeField] Canvas _healthBarCanvas;
+    [SerializeField] HealthBar _healthBar;
+    [SerializeField] Transform _towerPos;
+    [SerializeField] Turret _turretScript;
+    [SerializeField] float _speed;
+    [SerializeField] float _damage;
+    [SerializeField] int _maxHealth;
     public int MaxHealth { get { return _maxHealth; } }
-    [SerializeField] private int _health;
+    [SerializeField] int _health;
     public int Health { get { return _health; } }
-    [SerializeField] private int _bountyValue;
+    [SerializeField] int _bountyValue;
     public int BountyValue { get { return _bountyValue; } }
     private Vector2 _targetPos;
 
@@ -31,6 +32,7 @@ public class Enemy : MonoBehaviour
         _isAttacking = false;
         _isDead = false;
 
+        _turretScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Turret>();
         _healthBarCanvas = GameObject.FindGameObjectWithTag("Health Canvas").GetComponent<Canvas>();
         _healthBar.SetupHealthBar(_healthBarCanvas);
         GetTargetPosition();
@@ -87,7 +89,7 @@ public class Enemy : MonoBehaviour
 
     void DealDamage()
     {
-        GameManager.Instance.towerHealth -= _damage;
+        GameManager.Instance.towerHealth -= (_damage * _turretScript.Armor);
         UIManager.Instance.UpdateTowerHealthSlider();
     }
 }

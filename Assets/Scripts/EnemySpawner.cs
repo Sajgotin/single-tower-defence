@@ -5,13 +5,13 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     public static EnemySpawner Instance { get; private set; }
-    [SerializeField] private float _nextWaveTime;
-    [SerializeField] private float _timer;
-    [SerializeField] private int _enemyUnlock;
-    [SerializeField] private int _enemyNextWave;
-    [SerializeField] private int _waveCount;
+    [SerializeField] float _nextWaveTime;
+    [SerializeField] float _timer;
+    [SerializeField] int _enemyUnlock;
+    [SerializeField] int _enemyNextWave;
+    [SerializeField] int _waveCount;
     public int WaveCount { get { return _waveCount; } }
-    [SerializeField] private GameObject[] _enemyArray;
+    [SerializeField] GameObject[] _enemyArray;
 
     private void Awake()
     {
