@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - Spawner
   - Health Canvas
+  - Weapon
   layers:
   - Default
   - TransparentFX

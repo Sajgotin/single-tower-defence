@@ -81,6 +81,7 @@ public class UIManager : MonoBehaviour
                 Time.timeScale = 1;
                 _crosshair.SetActive(true);
                 Cursor.visible = false;
+                _shootingScript.PrepareWeapon();
             }
         }
     }

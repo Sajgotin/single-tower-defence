@@ -7,6 +7,9 @@ public class Shooting : MonoBehaviour
     [SerializeField] GameObject _explosion;
     [SerializeField] GameObject _muzzleFlash;
     [SerializeField] Transform _muzzleFlashPos;
+    [SerializeField] Upgrades _upgradesScript;
+    [SerializeField] Weaponry _cannon, _machinegun, _heavyCannon;
+    [SerializeField] SpriteRenderer _spriteRendererWeapon;
     [SerializeField] float _fireRate;
     [SerializeField] float _reloadTime;
     [SerializeField] float _timer;
@@ -20,6 +23,10 @@ public class Shooting : MonoBehaviour
     private void Start()
     {
         _timer = _fireRate;
+        _spriteRendererWeapon = GameObject.FindGameObjectWithTag("Weapon").GetComponent<SpriteRenderer>();
+
+        PrepareWeapon();
+        _ammoCapacity = _maxAmmoCapacity;
     }
 
     private void Update()
@@ -38,11 +45,30 @@ public class Shooting : MonoBehaviour
             _ammoCapacity--;
             UIManager.Instance.UpdateAmmoText();
 
+            SetExplosionAndMuzzleFlashScale();
             Instantiate(_explosion, CalculateMouseToWorldPosition(), Quaternion.identity);
             Instantiate(_muzzleFlash, _muzzleFlashPos.position, _muzzleFlashPos.rotation);
             SoundController.Instance.PlayExplosion();
         }
-        
+    }
+
+    void SetExplosionAndMuzzleFlashScale()
+    {
+        if (_upgradesScript.ActiveWeapon == Upgrades.WeaponrySelect.Machinegun)
+        {
+            _muzzleFlash.transform.localScale = new Vector3(0.15f, 0.15f, 0.15f);
+            _explosion.transform.localScale = new Vector3(0.15f, 0.15f, 0.15f);
+        }
+        else if (_upgradesScript.ActiveWeapon == Upgrades.WeaponrySelect.Cannon)
+        {
+            _muzzleFlash.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+            _explosion.transform.localScale = new Vector3(1f, 1f, 1f);
+        }
+        else if (_upgradesScript.ActiveWeapon == Upgrades.WeaponrySelect.HeavyCannon)
+        {
+            _muzzleFlash.transform.localScale = new Vector3(0.45f, 0.45f, 0.45f);
+            _explosion.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+        }
     }
 
     void CheckAmmoCapacity()
@@ -61,27 +87,42 @@ public class Shooting : MonoBehaviour
         }  
     }
 
+    public void PrepareWeapon()
+    {
+        if (_upgradesScript.ActiveWeapon == Upgrades.WeaponrySelect.Cannon)
+        {
+            _spriteRendererWeapon.sprite = _cannon.weaponSprite;
+            _fireRate = _cannon.fireRate;
+            _reloadTime = _cannon.reloadTime;
+            _maxAmmoCapacity = _cannon.maxAmmoCapacity;
+            _damage = _cannon.damage;
+            if (_ammoCapacity > _maxAmmoCapacity) _ammoCapacity = _maxAmmoCapacity;
+        }
+        else if (_upgradesScript.ActiveWeapon == Upgrades.WeaponrySelect.Machinegun)
+        {
+            _spriteRendererWeapon.sprite = _machinegun.weaponSprite;
+            _fireRate = _machinegun.fireRate;
+            _reloadTime = _machinegun.reloadTime;
+            _maxAmmoCapacity = _machinegun.maxAmmoCapacity;
+            _damage = _machinegun.damage;
+            if (_ammoCapacity > _maxAmmoCapacity) _ammoCapacity = _maxAmmoCapacity;
+        }
+        else if (_upgradesScript.ActiveWeapon == Upgrades.WeaponrySelect.HeavyCannon)
+        {
+            _spriteRendererWeapon.sprite = _heavyCannon.weaponSprite;
+            _fireRate = _heavyCannon.fireRate;
+            _reloadTime = _heavyCannon.reloadTime;
+            _maxAmmoCapacity = _heavyCannon.maxAmmoCapacity;
+            _damage = _heavyCannon.damage;
+            if (_ammoCapacity > _maxAmmoCapacity) _ammoCapacity = _maxAmmoCapacity;
+        }
+    }
+
     Vector3 CalculateMouseToWorldPosition()
     {
         Vector3 screenToWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         screenToWorld.z = 0;
 
         return screenToWorld;
-    }
-
-    public void UpgradeFireRate()
-    {
-        _fireRate *= .9f;
-    }
-
-    public void UpgradeReloadTime()
-    {
-        _reloadTime *= .9f;
-    }
-
-    public void UpgradeAmmoCapacity()
-    {
-        _maxAmmoCapacity++;
-        _ammoCapacity++;
     }
 }
