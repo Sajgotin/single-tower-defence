@@ -1332,6 +1332,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 77cf1ac281f088847a472aa25a39b3f9, type: 3}
   - {fileID: 8300000, guid: 85d0893847a04424f9ef7d6210afb246, type: 3}
   - {fileID: 8300000, guid: d6b2c0ad10cb25f439df93207742620f, type: 3}
+  _activeDeaths: 0
+  _activeAttacks: 0
 --- !u!1 &313300795
 GameObject:
   m_ObjectHideFlags: 0
@@ -7470,8 +7472,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08051cf5591e4bd4e9de1da74995d415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _nextWaveTime: 15
+  _nextWaveTime: 10
   _timer: 0
+  _spawnChance: []
   _enemyUnlock: 0
   _enemyNextWave: 10
   _waveCount: 0

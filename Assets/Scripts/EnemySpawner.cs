@@ -7,7 +7,7 @@ public class EnemySpawner : MonoBehaviour
     public static EnemySpawner Instance { get; private set; }
     [SerializeField] float _nextWaveTime;
     [SerializeField] float _timer;
-    [SerializeField] int _enemyUnlock;
+    [SerializeField] float[] _spawnChance;
     [SerializeField] int _enemyNextWave;
     [SerializeField] int _waveCount;
     public int WaveCount { get { return _waveCount; } }
@@ -28,8 +28,8 @@ public class EnemySpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _enemyUnlock = 3;
         _timer = _nextWaveTime;
+        SetDefaultSpawnChance();
     }
 
     // Update is called once per frame
@@ -44,23 +44,24 @@ public class EnemySpawner : MonoBehaviour
 
         if (_timer > _nextWaveTime)
         {
+            StartCoroutine(SpawnEnemy());
             _waveCount++;
             _timer = 0;
-            UIManager.Instance.UpdateWaveText();
-            AddNewEnemyToSpawn();
-
-            StartCoroutine(SpawnEnemy());
+            _nextWaveTime += 1;
+            UIManager.Instance.UpdateWaveText();     
         }
     }
 
     IEnumerator SpawnEnemy()
-    {    
-        for (int i = 0; i < _enemyNextWave * _waveCount;)
+    {
+        int _enemyToSpawn = _enemyNextWave + 5 * _waveCount;
+        for (int i = 0; i < _enemyToSpawn;)
         {
-            Instantiate(_enemyArray[Random.Range(0,_enemyArray.Length - _enemyUnlock)], RandomSpawnPos(), Quaternion.identity, this.gameObject.transform);
+            Instantiate(_enemyArray[EnemyToSpawnIndex()], RandomSpawnPos(), Quaternion.identity, this.gameObject.transform);
             yield return new WaitForSeconds(.2f);
             i++;
         }
+        SetEnemySpawnChance();
     }
 
     Vector2 RandomSpawnPos()
@@ -80,21 +81,72 @@ public class EnemySpawner : MonoBehaviour
 
     }
 
-    void AddNewEnemyToSpawn()
+    int EnemyToSpawnIndex()
     {
-        switch (_waveCount)
+        float random = Random.value;
+        float totalSpawnChance = _spawnChance[0];
+        int index = 0;
+
+        for(int i = 0; i < _enemyArray.Length; i++)
         {
-            case 6:
-                _enemyUnlock--;
+            if (totalSpawnChance >= random && _spawnChance[i] > 0.01f)
+            {
+                index = i;
                 break;
-            case 11:
-                _enemyUnlock--;
-                break;
-            case 16:
-                _enemyUnlock--;
-                break;
-            default:
-                break;
+            }
+            else
+            {
+                totalSpawnChance += _spawnChance[i + 1];
+            }
+        }
+        return index;
+    }
+
+    void SetEnemySpawnChance()
+    {
+        bool chanceUpdated = false;
+        if (_waveCount % 5 == 0)
+        {
+            for (int i = 0; i < _enemyArray.Length; i++)
+            {
+                if (!chanceUpdated)
+                {
+                    for (int j = i + 1; j < _enemyArray.Length; j++)
+                    {
+                        if (_spawnChance[i] > 0.01f)
+                        {
+                            if (_spawnChance[j] == 0)
+                            {
+                                _spawnChance[i] -= 0.1f;
+                                _spawnChance[j] += 0.1f;
+                                chanceUpdated = true;
+                                break;
+                            }
+                            else
+                            {
+                                _spawnChance[i] -= 0.1f;
+                                _spawnChance[j] += 0.1f;
+                                chanceUpdated = true;
+                            }
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
+                else break;
+            }       
+        }
+    }
+
+    void SetDefaultSpawnChance()
+    {
+        _spawnChance = new float[_enemyArray.Length];
+        for (int i = 0; i < _enemyArray.Length; i++)
+        {
+            if (i == 0) _spawnChance[i] = 1f;
+            else _spawnChance[i] = 0;
         }
     }
 }
