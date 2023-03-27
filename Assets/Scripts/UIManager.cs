@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class UIManager : MonoBehaviour
 {
@@ -94,6 +95,8 @@ public class UIManager : MonoBehaviour
             Time.timeScale = 0;
             _crosshair.SetActive(false);
             Cursor.visible = true;
+            //For Gamepad input probably
+            //EventSystem.current.SetSelectedGameObject(GameObject.FindGameObjectWithTag("UpgradeMenu").GetComponent<Upgrades>().FireRateButton.gameObject);
         }
         else
         {

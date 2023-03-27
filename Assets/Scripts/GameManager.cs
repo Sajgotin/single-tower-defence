@@ -73,4 +73,10 @@ public class GameManager : MonoBehaviour
     {
         Application.Quit();
     }
+
+    private void OnApplicationQuit()
+    {
+        MainMenu.saveExist = true;
+        SaveSystem.SaveData(nameof(MainMenu.saveExist), true);
+    }
 }

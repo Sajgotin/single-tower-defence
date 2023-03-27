@@ -10,6 +10,7 @@ TagManager:
   - Spawner
   - Health Canvas
   - Weapon
+  - UpgradeMenu
   layers:
   - Default
   - TransparentFX

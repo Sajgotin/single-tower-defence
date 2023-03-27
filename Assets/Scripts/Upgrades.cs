@@ -19,6 +19,7 @@ public class Upgrades : MonoBehaviour
 
     [Header("Firerate Upgrade")]
     [SerializeField] Button _fireRateButton;
+    public Button FireRateButton { get { return _fireRateButton; } }
     [SerializeField] TextMeshProUGUI _fireRateButtonText;
     [SerializeField] TextMeshProUGUI _fireRateCostText;
 
