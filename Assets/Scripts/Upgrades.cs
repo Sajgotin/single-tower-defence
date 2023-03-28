@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class Upgrades : MonoBehaviour
 {
     [SerializeField] GameObject[] _towerObjects;
+    [SerializeField] GameObject _upgradeMenu;
     [SerializeField] Shooting _shootingScript;
     [SerializeField] Turret _turretScript;
     [SerializeField] Weaponry _cannon, _machinegun, _heavyCannon;
@@ -57,10 +58,13 @@ public class Upgrades : MonoBehaviour
     [SerializeField] TextMeshProUGUI _heavyCannonButtonText;
     [SerializeField] TextMeshProUGUI _heavyCannonCostText;
 
-    private void Start()
+    private void Awake()
     {
         _shootingScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Shooting>();
         _turretScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Turret>();
+        if (MainMenu.saveExist) Load();
+        UpdateShopData();
+        _upgradeMenu.SetActive(false);   
     }
 
     private void OnEnable()
@@ -73,7 +77,7 @@ public class Upgrades : MonoBehaviour
         _shootingScript.PrepareWeapon();
     }
 
-    void UpdateShopData()
+    public void UpdateShopData()
     {
         if(_activeWeapon == WeaponrySelect.Cannon)
         {
@@ -86,6 +90,16 @@ public class Upgrades : MonoBehaviour
                 _fireRateButtonText.text = "MAX";
                 _fireRateCostText.gameObject.SetActive(false);
             }
+            _reloadTimeCostText.text = ((int)_cannon.reloadTimeCost).ToString();
+            _reloadTimeButtonText.text = _cannon.reloadTimeLevel.ToString();
+            if (_cannon.reloadTimeLevel >= _cannon.maxReloadTimeLevel)
+            {
+                _reloadTimeButton.interactable = false;
+                _reloadTimeButtonText.text = "MAX";
+                _reloadTimeCostText.gameObject.SetActive(false);
+            }
+            _ammoCapacityCostText.text = ((int)_cannon.ammoCapacityCost).ToString();
+            _ammoCapacityButtonText.text = _cannon.ammoCapacityLevel.ToString();
             _cannonButton.interactable = false;
             _cannonButtonText.text = " - ";
             _cannonCostText.gameObject.SetActive(false);
@@ -104,6 +118,16 @@ public class Upgrades : MonoBehaviour
                 _fireRateButtonText.text = "MAX";
                 _fireRateCostText.gameObject.SetActive(false);
             }
+            _reloadTimeCostText.text = ((int)_machinegun.reloadTimeCost).ToString();
+            _reloadTimeButtonText.text = _machinegun.reloadTimeLevel.ToString();
+            if (_machinegun.reloadTimeLevel >= _machinegun.maxReloadTimeLevel)
+            {
+                _reloadTimeButton.interactable = false;
+                _reloadTimeButtonText.text = "MAX";
+                _reloadTimeCostText.gameObject.SetActive(false);
+            }
+            _ammoCapacityCostText.text = ((int)_machinegun.ammoCapacityCost).ToString();
+            _ammoCapacityButtonText.text = _machinegun.ammoCapacityLevel.ToString();
             _machinegunButton.interactable = false;
             _machinegunButtonText.text = " - ";
             CheckCannonButton();
@@ -122,12 +146,40 @@ public class Upgrades : MonoBehaviour
                 _fireRateButtonText.text = "MAX";
                 _fireRateCostText.gameObject.SetActive(false);
             }
+            _reloadTimeCostText.text = ((int)_heavyCannon.reloadTimeCost).ToString();
+            _reloadTimeButtonText.text = _heavyCannon.reloadTimeLevel.ToString();
+            if (_heavyCannon.reloadTimeLevel >= _heavyCannon.maxReloadTimeLevel)
+            {
+                _reloadTimeButton.interactable = false;
+                _reloadTimeButtonText.text = "MAX";
+                _reloadTimeCostText.gameObject.SetActive(false);
+            }
+            _ammoCapacityCostText.text = ((int)_heavyCannon.ammoCapacityCost).ToString();
+            _ammoCapacityButtonText.text = _heavyCannon.ammoCapacityLevel.ToString();
             _heavyCannonButton.interactable = false;
             _heavyCannonButtonText.text = " - ";
             _heavyCannonCostText.gameObject.SetActive(false);
             _machinegunButton.interactable = true;
             _machinegunButtonText.text = "USE";
             CheckCannonButton();
+        }
+
+        _armorCostText.text = ((int)_armorCost).ToString();
+        _armorButtonText.text = _armorLevel.ToString();
+        if (_armorLevel >= 10)
+        {
+            _armorButton.interactable = false;
+            _armorButtonText.text = "MAX";
+            _armorCostText.gameObject.SetActive(false);
+        }
+
+        _autorepairCostText.text = ((int)_autorepairCost).ToString();
+        _autorepairButtonText.text = _autorepairLevel.ToString();
+        if (_autorepairLevel >= 10)
+        {
+            _autorepairButton.interactable = false;
+            _autorepairButtonText.text = "MAX";
+            _autorepairCostText.gameObject.SetActive(false);
         }
     }
 
@@ -182,11 +234,12 @@ public class Upgrades : MonoBehaviour
     {
         if (_activeWeapon == WeaponrySelect.Cannon && Points.Instance.points >= _cannon.fireRateCost)
         {
-            if (_cannon.UpgradeFireRate(1.4f))
+            if (_cannon.UpgradeFireRate())
             {
                 Points.Instance.points -= (int)_cannon.fireRateCost;
-                _fireRateCostText.text = ((int)_cannon.fireRateCost).ToString();
                 UIManager.Instance.UpdateGoldValue();
+                _cannon.fireRateCost *= 1.4f;
+                _fireRateCostText.text = ((int)_cannon.fireRateCost).ToString();
                 _fireRateButtonText.text = _cannon.fireRateLevel.ToString();
                 if (_cannon.fireRateLevel >= _cannon.maxFireRateLevel)
                 {
@@ -198,11 +251,12 @@ public class Upgrades : MonoBehaviour
         }
         else if (_activeWeapon == WeaponrySelect.Machinegun && Points.Instance.points >= _machinegun.fireRateCost)
         {
-            if (_machinegun.UpgradeFireRate(1.3f))
+            if (_machinegun.UpgradeFireRate())
             {
                 Points.Instance.points -= (int)_machinegun.fireRateCost;
-                _fireRateCostText.text = ((int)_machinegun.fireRateCost).ToString();
                 UIManager.Instance.UpdateGoldValue();
+                _machinegun.fireRateCost *= 1.3f;
+                _fireRateCostText.text = ((int)_machinegun.fireRateCost).ToString();  
                 _fireRateButtonText.text = _machinegun.fireRateLevel.ToString();
                 if (_machinegun.fireRateLevel >= _machinegun.maxFireRateLevel)
                 {
@@ -214,11 +268,12 @@ public class Upgrades : MonoBehaviour
         }
         else if (_activeWeapon == WeaponrySelect.HeavyCannon && Points.Instance.points >= _heavyCannon.fireRateCost)
         {
-            if (_heavyCannon.UpgradeFireRate(1.4f))
+            if (_heavyCannon.UpgradeFireRate())
             {
                 Points.Instance.points -= (int)_heavyCannon.fireRateCost;
-                _fireRateCostText.text = ((int)_heavyCannon.fireRateCost).ToString();
                 UIManager.Instance.UpdateGoldValue();
+                _heavyCannon.fireRateCost *= 1.4f;
+                _fireRateCostText.text = ((int)_heavyCannon.fireRateCost).ToString();
                 _fireRateButtonText.text = _heavyCannon.fireRateLevel.ToString();
                 if (_heavyCannon.fireRateLevel >= _heavyCannon.maxFireRateLevel)
                 {
@@ -234,13 +289,13 @@ public class Upgrades : MonoBehaviour
     {
         if (_activeWeapon == WeaponrySelect.Cannon && Points.Instance.points >= _cannon.reloadTimeCost)
         {
-            if (_cannon.UpgradeReloadTime(1.4f))
+            if (_cannon.UpgradeReloadTime())
             {
                 Points.Instance.points -= (int)_cannon.reloadTimeCost;
-                _cannon.reloadTimeLevel++;
-                _reloadTimeCostText.text = ((int)_cannon.reloadTimeCost).ToString();
                 UIManager.Instance.UpdateGoldValue();
-                _reloadTimeButtonText.text = _cannon.reloadTimeLevel.ToString();
+                _cannon.reloadTimeCost *= 1.4f;
+                _reloadTimeCostText.text = ((int)_cannon.reloadTimeCost).ToString();
+                _reloadTimeButtonText.text = _cannon.reloadTimeLevel.ToString(); 
                 if (_cannon.reloadTimeLevel >= _cannon.maxReloadTimeLevel)
                 {
                     _reloadTimeButton.interactable = false;
@@ -251,12 +306,12 @@ public class Upgrades : MonoBehaviour
         }     
         else if (_activeWeapon == WeaponrySelect.Machinegun && Points.Instance.points >= _machinegun.reloadTimeCost)
         {
-            if (_machinegun.UpgradeReloadTime(1.3f))
+            if (_machinegun.UpgradeReloadTime())
             {
                 Points.Instance.points -= (int)_machinegun.reloadTimeCost;
-                _machinegun.reloadTimeLevel++;
-                _reloadTimeCostText.text = ((int)_machinegun.reloadTimeCost).ToString();
                 UIManager.Instance.UpdateGoldValue();
+                _machinegun.reloadTimeCost *= 1.3f;
+                _reloadTimeCostText.text = ((int)_machinegun.reloadTimeCost).ToString();
                 _reloadTimeButtonText.text = _machinegun.reloadTimeLevel.ToString();
                 if (_machinegun.reloadTimeLevel >= _machinegun.maxReloadTimeLevel)
                 {
@@ -268,12 +323,12 @@ public class Upgrades : MonoBehaviour
         }
         else if (_activeWeapon == WeaponrySelect.HeavyCannon && Points.Instance.points >= _heavyCannon.reloadTimeCost)
         {
-            if (_heavyCannon.UpgradeReloadTime(1.2f))
+            if (_heavyCannon.UpgradeReloadTime())
             {
                 Points.Instance.points -= (int)_heavyCannon.reloadTimeCost;
-                _heavyCannon.reloadTimeLevel++;
-                _reloadTimeCostText.text = ((int)_heavyCannon.reloadTimeCost).ToString();
                 UIManager.Instance.UpdateGoldValue();
+                _heavyCannon.reloadTimeCost *= 1.2f;
+                _reloadTimeCostText.text = ((int)_heavyCannon.reloadTimeCost).ToString();
                 _reloadTimeButtonText.text = _heavyCannon.reloadTimeLevel.ToString();
                 if (_heavyCannon.reloadTimeLevel >= _heavyCannon.maxReloadTimeLevel)
                 {
@@ -289,33 +344,33 @@ public class Upgrades : MonoBehaviour
     {
         if(_activeWeapon == WeaponrySelect.Cannon && Points.Instance.points >= _cannon.ammoCapacityCost)
         {
-            _cannon.UpgradeAmmoCapacity();
             Points.Instance.points -= (int)_cannon.ammoCapacityCost;
+            _cannon.UpgradeAmmoCapacity();
             _cannon.ammoCapacityLevel++;
             _ammoCapacityCostText.text = ((int)_cannon.ammoCapacityCost).ToString();     
+            _ammoCapacityButtonText.text = _cannon.ammoCapacityLevel.ToString();
             UIManager.Instance.UpdateGoldValue();
             UIManager.Instance.UpdateAmmoText();
-            _ammoCapacityButtonText.text = _cannon.ammoCapacityLevel.ToString();
         }  
         else if (_activeWeapon == WeaponrySelect.Machinegun && Points.Instance.points >= _machinegun.ammoCapacityCost)
         {
-            _machinegun.UpgradeAmmoCapacity();
             Points.Instance.points -= (int)_machinegun.ammoCapacityCost;
+            _machinegun.UpgradeAmmoCapacity();
             _machinegun.ammoCapacityLevel++;
             _ammoCapacityCostText.text = ((int)_machinegun.ammoCapacityCost).ToString();
+            _ammoCapacityButtonText.text = _machinegun.ammoCapacityLevel.ToString();
             UIManager.Instance.UpdateGoldValue();
             UIManager.Instance.UpdateAmmoText();
-            _ammoCapacityButtonText.text = _machinegun.ammoCapacityLevel.ToString();
         }
         else if (_activeWeapon == WeaponrySelect.HeavyCannon && Points.Instance.points >= _heavyCannon.ammoCapacityCost)
-        {
-            _heavyCannon.UpgradeAmmoCapacity();
+        {   
             Points.Instance.points -= (int)_heavyCannon.ammoCapacityCost;
+            _heavyCannon.UpgradeAmmoCapacity();
             _heavyCannon.ammoCapacityLevel++;
             _ammoCapacityCostText.text = ((int)_heavyCannon.ammoCapacityCost).ToString();
+            _ammoCapacityButtonText.text = _heavyCannon.ammoCapacityLevel.ToString();
             UIManager.Instance.UpdateGoldValue();
             UIManager.Instance.UpdateAmmoText();
-            _ammoCapacityButtonText.text = _heavyCannon.ammoCapacityLevel.ToString();
         }
     }
 
@@ -403,5 +458,106 @@ public class Upgrades : MonoBehaviour
             UpdateShopData();
             _shootingScript.PrepareWeapon();
         }
+    }
+
+    void RecalculateFireRate()
+    {
+        _cannon.fireRateCost *= Mathf.Pow(1.4f, _cannon.fireRateLevel);
+        _cannon.fireRate *= Mathf.Pow(.9f, _cannon.fireRateLevel);
+
+        _machinegun.fireRateCost *= Mathf.Pow(1.3f, _machinegun.fireRateLevel);
+        _machinegun.fireRate *= Mathf.Pow(.9f, _machinegun.fireRateLevel);
+
+        _heavyCannon.fireRateCost *= Mathf.Pow(1.4f, _heavyCannon.fireRateLevel);
+        _heavyCannon.fireRate *= Mathf.Pow(.9f, _heavyCannon.fireRateLevel);
+    }
+
+    void RecalculateReloadTime()
+    {
+        _cannon.reloadTimeCost *= Mathf.Pow(1.4f, _cannon.reloadTimeLevel);
+        _cannon.reloadTime *= Mathf.Pow(.9f, _cannon.reloadTimeLevel);
+
+        _machinegun.reloadTimeCost *= Mathf.Pow(1.3f, _machinegun.reloadTimeLevel);
+        _machinegun.reloadTime *= Mathf.Pow(.9f, _machinegun.reloadTimeLevel);
+
+        _heavyCannon.reloadTimeCost *= Mathf.Pow(1.2f, _heavyCannon.reloadTimeLevel);
+        _heavyCannon.reloadTime *= Mathf.Pow(.9f, _heavyCannon.reloadTimeLevel);
+    }
+
+    void RecalculateTurretCost()
+    {
+        _armorCost *= Mathf.Pow(1.4f, _armorLevel);
+        _autorepairCost *= Mathf.Pow(1.4f, _autorepairLevel);
+    }
+
+    void Save()
+    {
+        SaveSystem.SaveData(nameof(_towerObjects), _towerObjects);
+        SaveSystem.SaveData(nameof(_cannonBought), _cannonBought);
+        SaveSystem.SaveData(nameof(_heavyCannonBought), _heavyCannonBought);
+        //Weaponry
+        SaveSystem.SaveData(nameof(_cannon.maxAmmoCapacity) + "c", _cannon.maxAmmoCapacity);
+        SaveSystem.SaveData(nameof(_cannon.fireRateLevel) + "c", _cannon.fireRateLevel);
+        SaveSystem.SaveData(nameof(_cannon.reloadTimeLevel) + "c", _cannon.reloadTimeLevel);
+        SaveSystem.SaveData(nameof(_cannon.ammoCapacityCost) + "c", _cannon.ammoCapacityCost);
+        SaveSystem.SaveData(nameof(_cannon.ammoCapacityLevel) + "c", _cannon.ammoCapacityLevel);
+        SaveSystem.SaveData(nameof(_machinegun.maxAmmoCapacity) + "m", _machinegun.maxAmmoCapacity);
+        SaveSystem.SaveData(nameof(_machinegun.fireRateLevel) + "m", _machinegun.fireRateLevel);
+        SaveSystem.SaveData(nameof(_machinegun.reloadTimeLevel) + "m", _machinegun.reloadTimeLevel);
+        SaveSystem.SaveData(nameof(_machinegun.ammoCapacityCost) + "m", _machinegun.ammoCapacityCost);
+        SaveSystem.SaveData(nameof(_machinegun.ammoCapacityLevel) + "m", _machinegun.ammoCapacityLevel);
+        SaveSystem.SaveData(nameof(_heavyCannon.maxAmmoCapacity) + "h", _heavyCannon.maxAmmoCapacity);
+        SaveSystem.SaveData(nameof(_heavyCannon.fireRateLevel) + "h", _heavyCannon.fireRateLevel);
+        SaveSystem.SaveData(nameof(_heavyCannon.reloadTimeLevel) + "h", _heavyCannon.reloadTimeLevel);
+        SaveSystem.SaveData(nameof(_heavyCannon.ammoCapacityCost) + "h", _heavyCannon.ammoCapacityCost);
+        SaveSystem.SaveData(nameof(_heavyCannon.ammoCapacityLevel) + "h", _heavyCannon.ammoCapacityLevel);
+        SaveSystem.SaveData(nameof(_activeWeapon), _activeWeapon);
+        //Turret
+        SaveSystem.SaveData(nameof(_armorLevel), _armorLevel);
+        SaveSystem.SaveData(nameof(_autorepairLevel), _autorepairLevel);
+    }
+
+    void Load()
+    {
+        for(int i = 0; i < _towerObjects.Length; i++)
+        {
+            if (SaveSystem.LoadData(nameof(_towerObjects) + i, _towerObjects)) 
+            { 
+                _towerObjects[i].SetActive(true);
+                GameObject.Find(i.ToString()).SetActive(false);
+            }
+        }
+        _cannonBought = SaveSystem.LoadData(nameof(_cannonBought), _cannonBought);
+        _heavyCannonBought = SaveSystem.LoadData(nameof(_heavyCannonBought), _heavyCannonBought);
+        //Weaponry
+        _cannon.maxAmmoCapacity = SaveSystem.LoadData(nameof(_cannon.maxAmmoCapacity) + "c", _cannon.maxAmmoCapacity);
+        _cannon.fireRateLevel = SaveSystem.LoadData(nameof(_cannon.fireRateLevel) + "c", _cannon.fireRateLevel);
+        _cannon.reloadTimeLevel = SaveSystem.LoadData(nameof(_cannon.reloadTimeLevel) + "c", _cannon.reloadTimeLevel);
+        _cannon.ammoCapacityCost = SaveSystem.LoadData(nameof(_cannon.ammoCapacityCost) + "c", _cannon.ammoCapacityCost);
+        _cannon.ammoCapacityLevel = SaveSystem.LoadData(nameof(_cannon.ammoCapacityLevel) + "c", _cannon.ammoCapacityLevel);
+        _machinegun.maxAmmoCapacity = SaveSystem.LoadData(nameof(_machinegun.maxAmmoCapacity) + "m", _machinegun.maxAmmoCapacity);
+        _machinegun.fireRateLevel = SaveSystem.LoadData(nameof(_machinegun.fireRateLevel) + "m", _machinegun.fireRateLevel);
+        _machinegun.reloadTimeLevel = SaveSystem.LoadData(nameof(_machinegun.reloadTimeLevel) + "m", _machinegun.reloadTimeLevel);
+        _machinegun.ammoCapacityCost = SaveSystem.LoadData(nameof(_machinegun.ammoCapacityCost) + "m", _machinegun.ammoCapacityCost);
+        _machinegun.ammoCapacityLevel = SaveSystem.LoadData(nameof(_machinegun.ammoCapacityLevel) + "m", _machinegun.ammoCapacityLevel);
+        _heavyCannon.maxAmmoCapacity = SaveSystem.LoadData(nameof(_heavyCannon.maxAmmoCapacity) + "h", _heavyCannon.maxAmmoCapacity);
+        _heavyCannon.fireRateLevel = SaveSystem.LoadData(nameof(_heavyCannon.fireRateLevel) + "h", _heavyCannon.fireRateLevel);
+        _heavyCannon.reloadTimeLevel = SaveSystem.LoadData(nameof(_heavyCannon.reloadTimeLevel) + "h", _heavyCannon.reloadTimeLevel);
+        _heavyCannon.ammoCapacityCost = SaveSystem.LoadData(nameof(_heavyCannon.ammoCapacityCost) + "h", _heavyCannon.ammoCapacityCost);
+        _heavyCannon.ammoCapacityLevel = SaveSystem.LoadData(nameof(_heavyCannon.ammoCapacityLevel) + "h", _heavyCannon.ammoCapacityLevel);
+        _activeWeapon = SaveSystem.LoadData(nameof(_activeWeapon), _activeWeapon);
+        RecalculateFireRate();
+        RecalculateReloadTime();
+        //Turret
+        _armorLevel = SaveSystem.LoadData(nameof(_armorLevel), _armorLevel);
+        _autorepairLevel = SaveSystem.LoadData(nameof(_autorepairLevel), _autorepairLevel);
+        _turretScript.RecalculateAutorepair(_autorepairLevel);
+        _turretScript.RecalculateTurretArmor(_armorLevel);
+        RecalculateTurretCost();
+    }
+
+    private void OnApplicationQuit()
+    {
+        Save();
     }
 }

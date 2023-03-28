@@ -51,8 +51,18 @@ public class Turret : MonoBehaviour
         _armor *= .9f;
     }
 
+    public void RecalculateTurretArmor(int armorLevel)
+    {
+        _armor *= Mathf.Pow(.9f, armorLevel);
+    }
+
     public void UpgradeAutorepair()
     {
         _autorepairValue++;
+    }
+
+    public void RecalculateAutorepair(int autorepairLevel)
+    {
+        _autorepairValue = autorepairLevel;
     }
 }

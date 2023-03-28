@@ -19,25 +19,23 @@ public class Weaponry : ScriptableObject
     public int reloadTimeLevel;
     public float reloadTimeCost;
 
-    public bool UpgradeFireRate(float costMultiplier)
+    public bool UpgradeFireRate()
     {
         if (fireRateLevel < maxFireRateLevel)
         {
             fireRate *= .9f;
             fireRateLevel++;
-            fireRateCost *= costMultiplier;
             return true;
         }
         else return false;
     }
 
-    public bool UpgradeReloadTime(float costMultiplier)
+    public bool UpgradeReloadTime()
     {
         if (reloadTimeLevel < maxReloadTimeLevel)
         {
             reloadTime *= .9f;
             reloadTimeLevel++;
-            reloadTimeCost *= costMultiplier;
             return true;
         }
         else return false;

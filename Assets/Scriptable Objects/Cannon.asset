@@ -18,7 +18,8 @@ MonoBehaviour:
   reloadTime: 5
   maxAmmoCapacity: 5
   ammoCapacity: 5
-  ammoCapacityCost: 500
+  ammoCapacityLevel: 0
+  ammoCapacityCost: 200
   damage: 2
   maxFireRateLevel: 20
   fireRateLevel: 0

@@ -20,13 +20,17 @@ public class Shooting : MonoBehaviour
     public int Damage { get { return _damage; } }
     [SerializeField] bool _isReloading;
 
+    private void Awake()
+    {
+        _spriteRendererWeapon = GameObject.FindGameObjectWithTag("Weapon").GetComponent<SpriteRenderer>(); 
+    }
+
     private void Start()
     {
         _timer = _fireRate;
-        _spriteRendererWeapon = GameObject.FindGameObjectWithTag("Weapon").GetComponent<SpriteRenderer>();
-
         PrepareWeapon();
         _ammoCapacity = _maxAmmoCapacity;
+        UIManager.Instance.UpdateAmmoText();
     }
 
     private void Update()

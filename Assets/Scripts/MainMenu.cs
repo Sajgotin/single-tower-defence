@@ -17,6 +17,11 @@ public class MainMenu : MonoBehaviour
         if(saveExist) _continueButton.SetActive(true);
     }
 
+    public void ContinueButton()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
     public void StartButton()
     {
         saveExist = false;

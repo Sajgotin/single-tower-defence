@@ -9,9 +9,19 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] float _timer;
     [SerializeField] float[] _spawnChance;
     [SerializeField] int _enemyNextWave;
-    [SerializeField] int _waveCount;
+    [SerializeField] int _waveCount; //save - 1, if <0 = 0
     public int WaveCount { get { return _waveCount; } }
     [SerializeField] GameObject[] _enemyArray;
+
+    private void OnEnable()
+    {
+        SetDefaultSpawnChance();
+        if (MainMenu.saveExist)
+        {
+            Load();
+            RecalculateSpawnChance();
+        }
+    }
 
     private void Awake()
     {
@@ -29,7 +39,6 @@ public class EnemySpawner : MonoBehaviour
     void Start()
     {
         _timer = _nextWaveTime;
-        SetDefaultSpawnChance();
     }
 
     // Update is called once per frame
@@ -47,7 +56,7 @@ public class EnemySpawner : MonoBehaviour
             StartCoroutine(SpawnEnemy());
             _waveCount++;
             _timer = 0;
-            _nextWaveTime += 1;
+            _nextWaveTime = 10 + 1 * _waveCount;
             UIManager.Instance.UpdateWaveText();     
         }
     }
@@ -61,7 +70,7 @@ public class EnemySpawner : MonoBehaviour
             yield return new WaitForSeconds(.2f);
             i++;
         }
-        SetEnemySpawnChance();
+        SetEnemySpawnChance(_waveCount);
     }
 
     Vector2 RandomSpawnPos()
@@ -102,10 +111,10 @@ public class EnemySpawner : MonoBehaviour
         return index;
     }
 
-    void SetEnemySpawnChance()
+    void SetEnemySpawnChance(int value)
     {
         bool chanceUpdated = false;
-        if (_waveCount % 5 == 0)
+        if (value % 5 == 0)
         {
             for (int i = 0; i < _enemyArray.Length; i++)
             {
@@ -140,13 +149,48 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
+    void RecalculateSpawnChance()
+    {
+        if(_waveCount < 70 && _waveCount > 0)
+        {
+            for (int a = 1; a <= _waveCount; a++)
+            {
+                SetEnemySpawnChance(a);
+            }
+        }
+        else
+        {
+            for(int b = 0; b < _enemyArray.Length; b++)
+            {
+                if (b == _enemyArray.Length - 1) _spawnChance[b] = 1.0f;
+                else _spawnChance[b] = 0.0f;
+            }
+        } 
+    }
+
     void SetDefaultSpawnChance()
     {
         _spawnChance = new float[_enemyArray.Length];
         for (int i = 0; i < _enemyArray.Length; i++)
         {
-            if (i == 0) _spawnChance[i] = 1f;
-            else _spawnChance[i] = 0;
+            if (i == 0) _spawnChance[i] = 1.0f;
+            else _spawnChance[i] = 0.0f;
         }
+    }
+
+    void Save()
+    {
+        SaveSystem.SaveData(nameof(_waveCount), _waveCount - 1);
+    }
+
+    void Load()
+    {
+        _waveCount = SaveSystem.LoadData(nameof(_waveCount), _waveCount);
+        if (_waveCount < 0) _waveCount = 0;
+    }
+
+    private void OnApplicationQuit()
+    {
+        Save();
     }
 }

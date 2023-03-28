@@ -8,14 +8,15 @@ using UnityEngine.EventSystems;
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
-    [SerializeField] private TextMeshProUGUI _goldText;
-    [SerializeField] private TextMeshProUGUI _currentWaveText;
-    [SerializeField] private TextMeshProUGUI _ammoText;
-    [SerializeField] private Slider _towerHealthSlider;
-    [SerializeField] private GameObject _pauseMenu;
-    [SerializeField] private GameObject _upgradeMenu;
-    [SerializeField] private GameObject _crosshair;
-    [SerializeField] private Shooting _shootingScript;
+    [SerializeField] TextMeshProUGUI _goldText;
+    [SerializeField] TextMeshProUGUI _currentWaveText;
+    [SerializeField] TextMeshProUGUI _ammoText;
+    [SerializeField] Slider _towerHealthSlider;
+    [SerializeField] GameObject _pauseMenu;
+    [SerializeField] GameObject _upgradeMenu;
+    [SerializeField] GameObject _crosshair;
+    [SerializeField] Shooting _shootingScript;
+    [SerializeField] Upgrades _upgradesScript;
 
     private void Awake()
     {
@@ -33,6 +34,7 @@ public class UIManager : MonoBehaviour
     {
         _shootingScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Shooting>();
         UpdateAmmoText();
+        UpdateGoldValue();
         _towerHealthSlider.maxValue = GameManager.Instance.maxTowerHealth;
         _towerHealthSlider.value = GameManager.Instance.towerHealth;
     }
@@ -82,7 +84,6 @@ public class UIManager : MonoBehaviour
                 Time.timeScale = 1;
                 _crosshair.SetActive(true);
                 Cursor.visible = false;
-                _shootingScript.PrepareWeapon();
             }
         }
     }
@@ -95,11 +96,13 @@ public class UIManager : MonoBehaviour
             Time.timeScale = 0;
             _crosshair.SetActive(false);
             Cursor.visible = true;
+            _upgradesScript.UpdateShopData();
             //For Gamepad input probably
             //EventSystem.current.SetSelectedGameObject(GameObject.FindGameObjectWithTag("UpgradeMenu").GetComponent<Upgrades>().FireRateButton.gameObject);
         }
         else
         {
+            _shootingScript.PrepareWeapon();
             if (!_pauseMenu.activeSelf)
             {
                 Time.timeScale = 1;
