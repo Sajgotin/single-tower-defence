@@ -24,6 +24,8 @@ MonoBehaviour:
   maxFireRateLevel: 10
   fireRateLevel: 0
   fireRateCost: 300
+  fireRateCostMultiplier: 1.3
   maxReloadTimeLevel: 10
   reloadTimeLevel: 0
   reloadTimeCost: 300
+  reloadTimeCostMultiplier: 1.3

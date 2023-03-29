@@ -9739,6 +9739,7 @@ MonoBehaviour:
   _activeWeapon: 0
   _cannonBought: 0
   _heavyCannonBought: 0
+  _towerUpgradeCost: 500
   _fireRateButton: {fileID: 1483058357}
   _fireRateButtonText: {fileID: 1567785931}
   _fireRateCostText: {fileID: 1187976950}
@@ -9751,13 +9752,17 @@ MonoBehaviour:
   _armorButton: {fileID: 1262522118}
   _armorButtonText: {fileID: 509399364}
   _armorCostText: {fileID: 839901854}
+  _armorMaxLevel: 10
   _armorLevel: 0
-  _armorCost: 500
+  _armorCost: 1000
+  _armorCostMultiplier: 1.4
   _autorepairButton: {fileID: 1419393316}
   _autorepairButtonText: {fileID: 1999824324}
   _autorepairCostText: {fileID: 118766733}
+  _autorepairMaxLevel: 10
   _autorepairLevel: 0
-  _autorepairCost: 500
+  _autorepairCost: 1000
+  _autorepairCostMultiplier: 1.4
   _machinegunButton: {fileID: 1457875200}
   _machinegunButtonText: {fileID: 1710822321}
   _cannonButton: {fileID: 421992923}
