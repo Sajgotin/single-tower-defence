@@ -5,7 +5,8 @@ using UnityEngine;
 public class SoundController : MonoBehaviour
 {
     [SerializeField] AudioSource _audioSource;
-    [SerializeField] List<AudioClip> audioClips = new List<AudioClip>();
+    [SerializeField] List<AudioClip> _audioClips = new List<AudioClip>();
+    [SerializeField] List<AudioClip> _mumbles = new List<AudioClip>();
     [SerializeField] int _activeDeaths;
     [SerializeField] int _activeAttacks;
     public static SoundController Instance { get; private set; }
@@ -22,18 +23,24 @@ public class SoundController : MonoBehaviour
         }
     }
 
+    public void PlayDialogueSound()
+    {
+        _audioSource.volume = 1f;
+        _audioSource.PlayOneShot(_mumbles[Random.Range(0, _mumbles.Count)]);
+    }
+
     public void PlayExplosion()
     {
         _audioSource.volume = 0.5f;
-        _audioSource.PlayOneShot(audioClips[0]);
+        _audioSource.PlayOneShot(_audioClips[0]);
     }
 
     IEnumerator PlayEnemyDeath()
     {
             Instance._activeDeaths++;
             _audioSource.volume = 0.35f;
-            _audioSource.PlayOneShot(audioClips[1]);
-            yield return new WaitForSeconds(audioClips[1].length);
+            _audioSource.PlayOneShot(_audioClips[1]);
+            yield return new WaitForSeconds(_audioClips[1].length);
             Instance._activeDeaths--;
     }
 
@@ -41,8 +48,8 @@ public class SoundController : MonoBehaviour
     {
             Instance._activeAttacks++;
             _audioSource.volume = 0.2f;
-            _audioSource.PlayOneShot(audioClips[2]);
-            yield return new WaitForSeconds(audioClips[2].length);
+            _audioSource.PlayOneShot(_audioClips[2]);
+            yield return new WaitForSeconds(_audioClips[2].length);
             Instance._activeAttacks--;
     }
 

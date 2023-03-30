@@ -52,9 +52,10 @@ public class EnemySpawner : MonoBehaviour
         _timer += Time.deltaTime;
 
         if (_timer > _nextWaveTime)
-        {
+        {   
             StartCoroutine(SpawnEnemy());
             _waveCount++;
+            CutsceneManager.Instance.CutsceneCheck(_waveCount);
             _timer = 0;
             _nextWaveTime = 10 + 1 * _waveCount;
             UIManager.Instance.UpdateWaveText();     
