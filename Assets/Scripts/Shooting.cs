@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class Shooting : MonoBehaviour
 {
+    private Controls _controls;
     [SerializeField] GameObject _explosion;
     [SerializeField] GameObject _muzzleFlash;
+    [SerializeField] GameObject _crosshair;
     [SerializeField] Transform _muzzleFlashPos;
     [SerializeField] Upgrades _upgradesScript;
     [SerializeField] Weaponry _cannon, _machinegun, _heavyCannon;
@@ -22,7 +24,19 @@ public class Shooting : MonoBehaviour
 
     private void Awake()
     {
+        _controls = new Controls();
+        _crosshair = GameObject.FindGameObjectWithTag("Crosshair");
         _spriteRendererWeapon = GameObject.FindGameObjectWithTag("Weapon").GetComponent<SpriteRenderer>(); 
+    }
+
+    private void OnEnable()
+    {
+        _controls.Player.Enable();
+    }
+
+    private void OnDisable()
+    {
+        _controls.Player.Disable();
     }
 
     private void Start()
@@ -43,14 +57,14 @@ public class Shooting : MonoBehaviour
 
     void Shot()
     {
-        if (Input.GetMouseButton(0) && _timer > _fireRate && Time.timeScale > 0 && _ammoCapacity > 0)
+        if (_controls.Player.Fire.inProgress && _timer > _fireRate && Time.timeScale > 0 && _ammoCapacity > 0)
         {
             _timer = 0;
             _ammoCapacity--;
             UIManager.Instance.UpdateAmmoText();
 
             SetExplosionAndMuzzleFlashScale();
-            Instantiate(_explosion, CalculateMouseToWorldPosition(), Quaternion.identity);
+            Instantiate(_explosion, _crosshair.transform.position, Quaternion.identity);
             Instantiate(_muzzleFlash, _muzzleFlashPos.position, _muzzleFlashPos.rotation);
             SoundController.Instance.PlayExplosion();
         }
@@ -124,7 +138,7 @@ public class Shooting : MonoBehaviour
 
     Vector3 CalculateMouseToWorldPosition()
     {
-        Vector3 screenToWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 screenToWorld = Camera.main.ScreenToWorldPoint(_controls.Player.Move.ReadValue<Vector2>());
         screenToWorld.z = 0;
 
         return screenToWorld;

@@ -42,7 +42,8 @@ public class Turret : MonoBehaviour
 
     void RotateTurret()
     {
-        if (Input.mousePosition.x < Screen.width / 2) _turret.transform.rotation = Quaternion.Euler(0, 0, 0);
+        Vector3 screenPos = Camera.main.WorldToScreenPoint(_crosshair.transform.position);
+        if (screenPos.x < Screen.width / 2) _turret.transform.rotation = Quaternion.Euler(0, 0, 0);
         else _turret.transform.rotation = Quaternion.Euler(0, 180, 0);
     }
 

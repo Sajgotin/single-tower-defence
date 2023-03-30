@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class DialogueBaseClass : MonoBehaviour
 {
     public bool finished {  get; protected set; }
+    protected Controls _controls;
 
     protected IEnumerator WriteText(string input, TMP_Text textHolder, Color textColor, TMP_FontAsset textFont, float delay)
     {
@@ -19,7 +20,7 @@ public class DialogueBaseClass : MonoBehaviour
             yield return new WaitForSecondsRealtime(delay);
         }
 
-        yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
+        yield return new WaitUntil(() => _controls.Player.Fire.triggered);
 
         finished = true;
     }

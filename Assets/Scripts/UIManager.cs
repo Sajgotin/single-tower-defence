@@ -8,6 +8,7 @@ using UnityEngine.EventSystems;
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
+    private Controls _controls;
     [SerializeField] TextMeshProUGUI _goldText;
     [SerializeField] TextMeshProUGUI _currentWaveText;
     [SerializeField] TextMeshProUGUI _ammoText;
@@ -28,6 +29,17 @@ public class UIManager : MonoBehaviour
         {
             Instance = this;
         } 
+        _controls = new Controls();
+    }
+
+    private void OnEnable()
+    {
+        _controls.Player.Enable();   
+    }
+
+    private void OnDisable()
+    {
+        _controls.Player.Disable();
     }
 
     private void Start()
@@ -41,7 +53,7 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (_controls.Player.Pause.triggered)
         {
             TogglePauseMenu();
         }
@@ -98,7 +110,7 @@ public class UIManager : MonoBehaviour
             Cursor.visible = true;
             _upgradesScript.UpdateShopData();
             //For Gamepad input probably
-            //EventSystem.current.SetSelectedGameObject(GameObject.FindGameObjectWithTag("UpgradeMenu").GetComponent<Upgrades>().FireRateButton.gameObject);
+            EventSystem.current.SetSelectedGameObject(GameObject.FindGameObjectWithTag("UpgradeMenu").GetComponent<Upgrades>().FireRateButton.gameObject);
         }
         else
         {

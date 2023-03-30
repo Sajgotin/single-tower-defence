@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+    private Controls _controls;
     [SerializeField] GameObject _crosshair;
     [SerializeField] Turret _turretScript;
     public float maxTowerHealth = 100f;
@@ -20,6 +21,17 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
         }
+        _controls = new Controls();
+    }
+
+    private void OnEnable()
+    {
+        _controls.Player.Enable();
+    }
+
+    private void OnDisable()
+    {
+        _controls.Player.Disable();
     }
 
     // Start is called before the first frame update
@@ -33,7 +45,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
+        if (_controls.Player.Shop.triggered)
         {
             UIManager.Instance.ToggleUpgradeMenu();
         }

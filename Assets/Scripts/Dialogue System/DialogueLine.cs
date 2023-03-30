@@ -19,9 +19,11 @@ public class DialogueLine : DialogueBaseClass
     [SerializeField] Image _imageHolder;
 
     private IEnumerator _lineAppear;
+    
 
     private void Awake()
     {
+        _controls = new Controls();
         _textHolder.text = "";
 
         _imageHolder.sprite = _avatarSprite;
@@ -30,13 +32,19 @@ public class DialogueLine : DialogueBaseClass
 
     private void OnEnable()
     {
+        _controls.Player.Enable();
         _lineAppear = WriteText(_input, _textHolder, _textColor, _textFont, _delay);
         StartCoroutine(_lineAppear);
     }
 
+    private void OnDisable()
+    {
+        _controls.Player.Disable();
+    }
+
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (_controls.Player.SkipDialogue.triggered)
         {
             if (_textHolder.text != _input) 
             {
