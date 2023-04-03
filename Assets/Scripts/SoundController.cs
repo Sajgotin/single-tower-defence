@@ -7,6 +7,7 @@ public class SoundController : MonoBehaviour
     [SerializeField] AudioSource _audioSource;
     [SerializeField] List<AudioClip> _audioClips = new List<AudioClip>();
     [SerializeField] List<AudioClip> _mumbles = new List<AudioClip>();
+    [SerializeField] AudioClip _backgroundMusic;
     [SerializeField] int _activeDeaths;
     [SerializeField] int _activeAttacks;
     public static SoundController Instance { get; private set; }

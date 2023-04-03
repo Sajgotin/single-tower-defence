@@ -14,6 +14,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI _ammoText;
     [SerializeField] Slider _towerHealthSlider;
     [SerializeField] GameObject _pauseMenu;
+    [SerializeField] GameObject _settingsMenu;
+    [SerializeField] GameObject _settingsButton;
     [SerializeField] GameObject _upgradeMenu;
     [SerializeField] GameObject _crosshair;
     [SerializeField] Shooting _shootingScript;
@@ -88,6 +90,7 @@ public class UIManager : MonoBehaviour
             Time.timeScale = 0;
             _crosshair.SetActive(false);
             Cursor.visible = true;
+            EventSystem.current.SetSelectedGameObject(_settingsButton);
         }
         else
         {
@@ -96,6 +99,10 @@ public class UIManager : MonoBehaviour
                 Time.timeScale = 1;
                 _crosshair.SetActive(true);
                 Cursor.visible = false;
+            }
+            else
+            {
+                EventSystem.current.SetSelectedGameObject(GameObject.FindGameObjectWithTag("UpgradeMenu").GetComponent<Upgrades>().FireRateButton.gameObject);
             }
         }
     }
@@ -122,5 +129,16 @@ public class UIManager : MonoBehaviour
                 Cursor.visible = false;
             }
         }
+    }
+
+    public void SettingsButton()
+    {
+        _settingsMenu.SetActive(true);
+    }
+
+    public void BackButton()
+    {
+        EventSystem.current.SetSelectedGameObject(_settingsButton);
+        _settingsMenu.SetActive(false);
     }
 }

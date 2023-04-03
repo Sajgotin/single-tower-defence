@@ -1,7 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
@@ -9,6 +8,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] GameObject buttonsCointainer;
     [SerializeField] GameObject settingsPanel;
     [SerializeField] GameObject _continueButton;
+    [SerializeField] GameObject _settingsButton;
     public static bool saveExist = false;
 
     private void Awake()
@@ -31,8 +31,15 @@ public class MainMenu : MonoBehaviour
 
     public void SettingsButton()
     {
-       // settingsPanel.SetActive(true);
-       // buttonsCointainer.SetActive(false);
+        settingsPanel.SetActive(true);
+        buttonsCointainer.SetActive(false);
+    }
+
+    public void BackButton()
+    {
+        settingsPanel.SetActive(false);
+        buttonsCointainer.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(_settingsButton);
     }
 
     public void QuitButton()
@@ -42,7 +49,6 @@ public class MainMenu : MonoBehaviour
 
     private void Start()
     {
-        settingsPanel.SetActive(false);
         buttonsCointainer.SetActive(true);
     }
 }

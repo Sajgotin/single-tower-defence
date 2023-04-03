@@ -122,8 +122,8 @@ public class Upgrades : MonoBehaviour
     void CheckMachinegunButton(bool value)
     {
         _machinegunButton.interactable = value;
-        if(value) _machinegunButtonText.text = "USE";
-        else _machinegunButtonText.text = " - ";
+        if (value) _machinegunButtonText.text = "USE";
+        else _machinegunButtonText.text = " - "; 
     }
 
     void CheckHeavyCannonButton()
@@ -179,6 +179,7 @@ public class Upgrades : MonoBehaviour
             int button = int.Parse(EventSystem.current.currentSelectedGameObject.name);
             _towerObjects[button].SetActive(true);
             EventSystem.current.currentSelectedGameObject.SetActive(false);
+            EventSystem.current.SetSelectedGameObject(_fireRateButton.navigation.selectOnDown.gameObject);
             GameManager.Instance.maxTowerHealth += 100f;
             GameManager.Instance.towerHealth += 100f;
             UIManager.Instance.UpdateTowerHealthSlider();
@@ -275,6 +276,7 @@ public class Upgrades : MonoBehaviour
         if (weapon.fireRateLevel >= weapon.maxFireRateLevel)
         {
             _fireRateButton.interactable = false;
+            EventSystem.current.SetSelectedGameObject(_fireRateButton.navigation.selectOnDown.gameObject);
             _fireRateButtonText.text = "MAX";
             _fireRateCostText.gameObject.SetActive(false);
         }
@@ -287,6 +289,7 @@ public class Upgrades : MonoBehaviour
         if (weapon.reloadTimeLevel >= weapon.maxReloadTimeLevel)
         {
             _reloadTimeButton.interactable = false;
+            EventSystem.current.SetSelectedGameObject(_fireRateButton.navigation.selectOnDown.gameObject);
             _reloadTimeButtonText.text = "MAX";
             _reloadTimeCostText.gameObject.SetActive(false);
         }
@@ -305,6 +308,7 @@ public class Upgrades : MonoBehaviour
         if (_armorLevel >= _armorMaxLevel)
         {
             _armorButton.interactable = false;
+            EventSystem.current.SetSelectedGameObject(_fireRateButton.navigation.selectOnDown.gameObject);
             _armorButtonText.text = "MAX";
             _armorCostText.gameObject.SetActive(false);
         }
@@ -317,6 +321,7 @@ public class Upgrades : MonoBehaviour
         if (_autorepairLevel >= _autorepairMaxLevel)
         {
             _autorepairButton.interactable = false;
+            EventSystem.current.SetSelectedGameObject(_fireRateButton.navigation.selectOnDown.gameObject);
             _autorepairButtonText.text = "MAX";
             _autorepairCostText.gameObject.SetActive(false);
         }
@@ -326,6 +331,7 @@ public class Upgrades : MonoBehaviour
     {
         _activeWeapon = WeaponrySelect.Machinegun;
         UpdateShopData();
+        EventSystem.current.SetSelectedGameObject(_fireRateButton.navigation.selectOnDown.gameObject);
         _shootingScript.PrepareWeapon();
 
     }
@@ -339,12 +345,14 @@ public class Upgrades : MonoBehaviour
             _cannonBought = true;
             _activeWeapon = WeaponrySelect.Cannon;
             UpdateShopData();
+            EventSystem.current.SetSelectedGameObject(_fireRateButton.navigation.selectOnDown.gameObject);
             _shootingScript.PrepareWeapon();
         }
         if (_cannonBought)
         {
             _activeWeapon = WeaponrySelect.Cannon;
             UpdateShopData();
+            EventSystem.current.SetSelectedGameObject(_fireRateButton.navigation.selectOnDown.gameObject);
             _shootingScript.PrepareWeapon();
         }
     }
@@ -358,12 +366,14 @@ public class Upgrades : MonoBehaviour
             _heavyCannonBought = true;
             _activeWeapon = WeaponrySelect.HeavyCannon;
             UpdateShopData();
+            EventSystem.current.SetSelectedGameObject(_fireRateButton.navigation.selectOnDown.gameObject);
             _shootingScript.PrepareWeapon();
         }
         if(_heavyCannonBought)
         {
             _activeWeapon = WeaponrySelect.HeavyCannon;
             UpdateShopData();
+            EventSystem.current.SetSelectedGameObject(_fireRateButton.navigation.selectOnDown.gameObject);
             _shootingScript.PrepareWeapon();
         }
     }

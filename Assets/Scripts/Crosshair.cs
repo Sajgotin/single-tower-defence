@@ -44,17 +44,8 @@ public class Crosshair : MonoBehaviour
         if (_crosshair != null)
         {
             _moveInput = _controls.Player.Move.ReadValue<Vector2>();
-            Debug.Log(_moveInput);
-            //if (_playerInput.currentControlScheme != _controls.KeyboardMouseScheme.name) 
-            //{
-                _crosshair.transform.position = new Vector3(_crosshair.transform.position.x + _moveInput.x * Time.deltaTime, _crosshair.transform.position.y + _moveInput.y * Time.deltaTime, 0);
-            //}
-            //else
-            //{
-            //    Vector3 screenToWorld = Camera.main.ScreenToWorldPoint(_moveInput);
-            //    screenToWorld.z = 0;
-            //    _crosshair.transform.position = screenToWorld;
-            //} 
+            _crosshair.transform.position = new Vector3(_crosshair.transform.position.x + _moveInput.x * Time.deltaTime, 
+                                                        _crosshair.transform.position.y + _moveInput.y * Time.deltaTime, 0);
         }
         else
         {
