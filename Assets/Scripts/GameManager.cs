@@ -45,9 +45,9 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_controls.Player.Shop.triggered)
+        if (_controls.Player.Back.triggered)
         {
-            UIManager.Instance.ToggleUpgradeMenu();
+            UIManager.Instance.CloseOneMenu();
         }
 
         if (towerHealth <= 0) 

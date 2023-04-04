@@ -84,27 +84,9 @@ public class UIManager : MonoBehaviour
 
     void TogglePauseMenu()
     {
-        _pauseMenu.SetActive(!_pauseMenu.activeSelf);
-        if (_pauseMenu.activeSelf)
-        {
-            Time.timeScale = 0;
-            _crosshair.SetActive(false);
-            Cursor.visible = true;
-            EventSystem.current.SetSelectedGameObject(_settingsButton);
-        }
-        else
-        {
-            if (!_upgradeMenu.activeSelf)
-            {
-                Time.timeScale = 1;
-                _crosshair.SetActive(true);
-                Cursor.visible = false;
-            }
-            else
-            {
-                EventSystem.current.SetSelectedGameObject(GameObject.FindGameObjectWithTag("UpgradeMenu").GetComponent<Upgrades>().FireRateButton.gameObject);
-            }
-        }
+        if (!_pauseMenu.activeSelf) _pauseMenu.SetActive(true);
+        else CloseOneMenu();
+        CheckActiveMenuPanels();
     }
 
     public void ToggleUpgradeMenu()
@@ -112,22 +94,60 @@ public class UIManager : MonoBehaviour
         _upgradeMenu.SetActive(!_upgradeMenu.activeSelf);
         if (_upgradeMenu.activeSelf)
         {
-            Time.timeScale = 0;
-            _crosshair.SetActive(false);
-            Cursor.visible = true;
             _upgradesScript.UpdateShopData();
-            //For Gamepad input probably
-            EventSystem.current.SetSelectedGameObject(GameObject.FindGameObjectWithTag("UpgradeMenu").GetComponent<Upgrades>().FireRateButton.gameObject);
         }
         else
         {
             _shootingScript.PrepareWeapon();
-            if (!_pauseMenu.activeSelf)
+        }
+        CheckActiveMenuPanels();
+    }
+
+    public void CloseOneMenu()
+    {
+        GameObject[] menuArray = GameObject.FindGameObjectsWithTag("UI");
+
+        if(menuArray.Length > 0)
+        {
+            for(int i = menuArray.Length - 1; i >= 0; i--)
             {
-                Time.timeScale = 1;
-                _crosshair.SetActive(true);
-                Cursor.visible = false;
+                if (menuArray[i].activeSelf)
+                {
+                    menuArray[i].SetActive(false);
+                    CheckActiveMenuPanels();
+                    return;
+                }
             }
+        }
+        ToggleUpgradeMenu();
+    }
+
+    void CheckActiveMenuPanels()
+    {
+        if(_upgradeMenu.activeSelf || _pauseMenu.activeSelf)
+        {
+            Time.timeScale = 0;
+            _crosshair.SetActive(false);
+            Cursor.visible = true;
+            SetActiveMenuButton();
+        }
+        else
+        {
+            Time.timeScale = 1;
+            _crosshair.SetActive(true);
+            Cursor.visible = false;
+        }
+    }
+
+    void SetActiveMenuButton()
+    {
+        if (_pauseMenu.activeSelf)
+        {
+            EventSystem.current.SetSelectedGameObject(_settingsButton);
+        }
+        else if (_upgradeMenu.activeSelf)
+        {
+            EventSystem.current.SetSelectedGameObject(GameObject.FindGameObjectWithTag("UpgradeMenu").GetComponent<Upgrades>().FireRateButton.gameObject);
         }
     }
 

@@ -64,7 +64,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Shop"",
+                    ""name"": ""Back"",
                     ""type"": ""Button"",
                     ""id"": ""f0948aae-16b8-48db-b745-1bb6823ac7ab"",
                     ""expectedControlType"": ""Button"",
@@ -191,7 +191,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Shop"",
+                    ""action"": ""Back"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -202,7 +202,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Shop"",
+                    ""action"": ""Back"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -794,7 +794,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
         m_Player_SkipDialogue = m_Player.FindAction("Skip Dialogue", throwIfNotFound: true);
         m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
-        m_Player_Shop = m_Player.FindAction("Shop", throwIfNotFound: true);
+        m_Player_Back = m_Player.FindAction("Back", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -870,7 +870,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Fire;
     private readonly InputAction m_Player_SkipDialogue;
     private readonly InputAction m_Player_Pause;
-    private readonly InputAction m_Player_Shop;
+    private readonly InputAction m_Player_Back;
     public struct PlayerActions
     {
         private @Controls m_Wrapper;
@@ -879,7 +879,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         public InputAction @Fire => m_Wrapper.m_Player_Fire;
         public InputAction @SkipDialogue => m_Wrapper.m_Player_SkipDialogue;
         public InputAction @Pause => m_Wrapper.m_Player_Pause;
-        public InputAction @Shop => m_Wrapper.m_Player_Shop;
+        public InputAction @Back => m_Wrapper.m_Player_Back;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -901,9 +901,9 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 @Pause.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
                 @Pause.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
                 @Pause.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
-                @Shop.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShop;
-                @Shop.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShop;
-                @Shop.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShop;
+                @Back.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBack;
+                @Back.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBack;
+                @Back.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBack;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -920,9 +920,9 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 @Pause.started += instance.OnPause;
                 @Pause.performed += instance.OnPause;
                 @Pause.canceled += instance.OnPause;
-                @Shop.started += instance.OnShop;
-                @Shop.performed += instance.OnShop;
-                @Shop.canceled += instance.OnShop;
+                @Back.started += instance.OnBack;
+                @Back.performed += instance.OnBack;
+                @Back.canceled += instance.OnBack;
             }
         }
     }
@@ -1083,7 +1083,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         void OnFire(InputAction.CallbackContext context);
         void OnSkipDialogue(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
-        void OnShop(InputAction.CallbackContext context);
+        void OnBack(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
