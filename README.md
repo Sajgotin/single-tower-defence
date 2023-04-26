@@ -1,7 +1,7 @@
 <h1>Single Tower Defence</h1>
 
 <h2>Description</h2>
-Protect your castle from waves of monsters. You can upgrade your weapons and castle. Four monsters types available and unlocking at game progress. Use gamepad or keyboard and mouse. Simple project for portfolio. Game is saving your progress. First dialogue is used for testing purposes only. Extra starting gold.
+Protect your castle from waves of monsters. You can upgrade your weapons and castle. Four monsters types available and unlocking at game progress. Use gamepad or keyboard and mouse. Simple project for portfolio. Game is saving your progress. First dialogue is used for testing purposes only. Extra starting gold. Every asset is free and commercial use ready.
 <br/>
 
 <h2>Languages and Utilities Used</h2>
