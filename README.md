@@ -1,8 +1,19 @@
-<h1>Single Tower Defence</h1>
+<h1>Single Tower Defence 2D</h1>
 
 <h2>Description</h2>
-Protect your castle from waves of monsters. You can upgrade your weapons and castle. Four monsters types available and unlocking at game progress. Use gamepad or keyboard and mouse. Simple project for portfolio. Game is saving your progress. First dialogue is used for testing purposes only. Extra starting gold. Every asset is free and commercial use ready.
+Simple tower defence project. Defeat your enemies to make gold and upgrade weapons and castle with it. I was trying to make this game in a gamejam spirit but I used a much more time to find assets than I should in a real gamejam. Every asset is free and commercial use ready. You can use gamepad to play but it is not recommended experience.
 <br/>
+<h3><s>Bugs</s> Features:</h3>
+<ol>
+ <li>Three upgradeable weapons: machinegun, cannon and heavy cannon <i>(attack speed, reload speed and ammo capacity to upgrade)</i></li>
+ <li>Upgradable tower: damage reduction, extra health and autorepair</li>
+ <li>Spawn/wave system with four monsters: orc, wraith, golem and minotaur <i>(they even have healh bars!)</i></li>
+ <li><b>Autosave system</b></li>
+ <li>Gamepad controls <i>(not recommended but possible)</i></li>
+ <li>Background music and sfx</li>
+ <li>Extra starting gold <i>(for better testing)</i></li>
+ <li><b>Free</b></li>
+</ol>
 
 <h2>Languages and Utilities Used</h2>
 
