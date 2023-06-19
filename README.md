@@ -7,7 +7,7 @@ Simple tower defence project. Defeat your enemies to make gold and upgrade weapo
 <ol>
  <li>Three upgradeable weapons: machinegun, cannon and heavy cannon <i>(attack speed, reload speed and ammo capacity to upgrade)</i></li>
  <li>Upgradable tower: damage reduction, extra health and autorepair</li>
- <li>Spawn/wave system with four monsters: orc, wraith, golem and minotaur <i>(they even have healh bars!)</i></li>
+ <li>Spawn/wave system with four monsters: orc, wraith, golem and minotaur <i>(they even have health bars!)</i></li>
  <li><b>Autosave system</b></li>
  <li>Gamepad controls <i>(not recommended but possible)</i></li>
  <li>Background music and sfx</li>
