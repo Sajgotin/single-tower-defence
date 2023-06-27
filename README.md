@@ -24,6 +24,9 @@ Simple tower defence project. Defeat your enemies to make gold and upgrade weapo
 
 - <b>Windows 10</b>
 
+<h2>Preview:</h2>
+https://youtu.be/O1LN4YPiJPE
+
 <h2>Screenshot:</h2>
 
 <p align="center">
